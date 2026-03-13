@@ -1,15 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnInit, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CharacterResponse } from '../interfaces/dragonball.interface';
+import { DBResponse } from '../interfaces/dragonballResponse.interface';
 
-const baseUrl = 'https://www.dragonball-api.com/api';
+const baseUrl = 'https://dragonball-api.com/api';
 
 @Injectable({ providedIn: 'root' })
 export class DragonBallService {
-  hptt = inject(HttpClient);
+  private hptt = inject(HttpClient);
+  limit = signal('9');
 
-  getCharacters(): Observable<CharacterResponse[]> {
-    return this.hptt.get<CharacterResponse[]>(`${baseUrl}/characters`);
+  getCharacters(limitQuery?: string): Observable<DBResponse> {
+    if (limitQuery) {
+      this.limit.set(limitQuery);
+    }
+
+    return this.hptt.get<DBResponse>(`${baseUrl}/characters?limit=${this.limit()}`);
   }
 }

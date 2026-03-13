@@ -1,4 +1,4 @@
-export interface CharacterResponse {
+export interface CharacterDetail {
   id: number;
   name: string;
   ki: string;

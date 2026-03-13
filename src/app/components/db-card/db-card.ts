@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
-import { CharacterResponse } from '../../interfaces/dragonball.interface';
+import { Item } from '../../interfaces/dragonballResponse.interface';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'db-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './db-card.html',
 })
 export class DbCard {
-  characters = input.required<CharacterResponse>();
+  character = input.required<Item>();
 }
