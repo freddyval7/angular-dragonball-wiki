@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnInit, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DBResponse } from '../interfaces/dragonballResponse.interface';
+import { CharacterDetail } from '../interfaces/characterDetail.interface';
 
 const baseUrl = 'https://dragonball-api.com/api';
 
@@ -16,5 +17,9 @@ export class DragonBallService {
     }
 
     return this.hptt.get<DBResponse>(`${baseUrl}/characters?limit=${this.limit()}`);
+  }
+
+  getCharacterById(id: string): Observable<CharacterDetail> {
+    return this.hptt.get<CharacterDetail>(`${baseUrl}/characters/${id}`);
   }
 }

@@ -1,1 +1,5 @@
-<p>character-details works!</p>,
+@if (characterResource.value()) {
+  <div class="min-h-screen flex mt-10 justify-center">
+    <character-detail-card [character]="characterResource.value()" />
+  </div>
+}

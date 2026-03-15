@@ -1,0 +1,62 @@
+<div class="py-10 px-20">
+  <div
+    class="card md:card-side bg-base-100 shadow-sm grid md:grid-cols-2 rounded-md max-w-3xl md:max-w-none"
+  >
+    <div class="h-48 md:h-150 bg-orange-300 rounded-md relative">
+      <img
+        class="w-full h-full object-contain"
+        [src]="character()?.image"
+        [alt]="character()?.name"
+      />
+    </div>
+    <div class="card-body bg-base-300 rounded-md">
+      <h2 class="card-title text-accent">{{ character()?.name }}</h2>
+      <div class="h-full flex flex-col justify-between gap-2">
+        <div>
+          <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+            <input type="radio" name="my-accordion-2" checked="checked" />
+            <div class="collapse-title font-semibold">Description</div>
+            <div class="collapse-content text-sm">{{ character()?.description }}</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 mt-4">
+          <div>
+            <p class="md:text-2xl font-bold text-warning">Race:</p>
+            <span class="md:text-xl">{{ character()?.race }}</span>
+          </div>
+          <div>
+            <p class="md:text-2xl font-bold text-warning">Gender:</p>
+            <span class="md:text-xl">{{ character()?.gender }}</span>
+          </div>
+          <div>
+            <p class="md:text-2xl font-bold text-warning">Affiliation:</p>
+            <span class="md:text-xl">{{ character()?.affiliation }}</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="md:text-2xl font-bold text-warning">Power:</p>
+            <span class="md:text-xl">{{ character()?.ki }}</span>
+          </div>
+          <div>
+            <p class="md:text-2xl font-bold text-error">Max Power:</p>
+            <span class="md:text-xl">{{ character()?.maxKi }}</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cartas de transformaciones, van a ir divididas en grids
+  Quizas hacer un overflow-y-scroll para que se puedan ver mas de una en la misma linea
+-->
+
+<!-- <div
+  class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 justify-center gap-6 px-10 overflow-x-scroll"
+>
+  @for (transformation of character()?.transformations; track $index) {
+    <transformation-card [transformation]="transformation" />
+  }
+</div> -->
