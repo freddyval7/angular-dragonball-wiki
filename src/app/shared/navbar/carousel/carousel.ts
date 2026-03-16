@@ -4,6 +4,7 @@ import {
   ElementRef,
   input,
   OnChanges,
+  output,
   SimpleChanges,
   viewChild,
 } from '@angular/core';
@@ -20,6 +21,8 @@ export class Carousel implements AfterViewInit, OnChanges {
   swiperDiv = viewChild.required<ElementRef>('swiperDiv');
 
   swiper: Swiper | undefined = undefined;
+
+  slideSelected = output<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['images'].firstChange) {
@@ -74,6 +77,12 @@ export class Carousel implements AfterViewInit, OnChanges {
       // And if we need scrollbar
       scrollbar: {
         el: '.swiper-scrollbar',
+      },
+
+      on: {
+        slideChangeTransitionStart: (swiper) => {
+          this.slideSelected.emit(swiper.realIndex);
+        },
       },
     });
   }

@@ -3,7 +3,10 @@
     class="card md:card-side bg-base-100 shadow-sm grid grid-cols-1 md:grid-cols-2 rounded-md max-w-3xl md:max-w-none"
   >
     <div class="bg-orange-300 rounded-md">
-      <app-carousel [images]="characterImages()"></app-carousel>
+      <app-carousel
+        [images]="characterImages()"
+        (slideSelected)="selectedState.set($event)"
+      ></app-carousel>
       <!-- <img
         class="w-full h-full object-contain"
         [src]="character()?.image"
@@ -11,7 +14,7 @@
       /> -->
     </div>
     <div class="card-body bg-base-300 rounded-md">
-      <h2 class="card-title text-accent">{{ character()?.name }}</h2>
+      <h2 class="card-title text-accent">{{ actualState()?.name }}</h2>
       <div class="h-full flex flex-col justify-between gap-2">
         <div>
           <div class="collapse collapse-arrow bg-base-100 border border-base-300">
@@ -37,11 +40,7 @@
         <div class="flex justify-between items-center">
           <div>
             <p class="md:text-2xl font-bold text-warning">Power:</p>
-            <span class="md:text-xl">{{ character()?.ki }}</span>
-          </div>
-          <div>
-            <p class="md:text-2xl font-bold text-error">Max Power:</p>
-            <span class="md:text-xl">{{ character()?.maxKi }}</span>
+            <span class="md:text-xl">{{ actualState()?.ki }}</span>
           </div>
         </div>
         <div class="flex flex-col gap-2"></div>
