@@ -2,21 +2,29 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { DbCard } from '../../../components/db-card/db-card';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DragonBallService } from '../../../services/dragonball.service';
-import { RouterOutlet } from '../../../../../node_modules/@angular/router/types/_router_module-chunk';
+import { ActivatedRoute } from '@angular/router';
+import { FilterCharacters } from './components/filter-characters/filter-characters';
+import { Filters } from '../../../utils/filter-utils';
 
 @Component({
   selector: 'app-charactersPage',
-  imports: [DbCard],
+  imports: [DbCard, FilterCharacters],
   templateUrl: './characters-page.html',
 })
 export class CharactersPage {
   dragonBallService = inject(DragonBallService);
+  activeRoute = inject(ActivatedRoute);
+
+  filters = signal<Filters>({});
 
   dragonBallResource = rxResource({
-    stream: () => {
-      return this.dragonBallService.getCharacters();
+    params: () => ({
+      ...this.filters(),
+    }),
+    stream: ({ params }) => {
+      return this.dragonBallService.getCharacters(params);
     },
   });
 
-  characters = computed(() => this.dragonBallResource.value()?.items);
+  characters = computed(() => this.dragonBallResource.value());
 }

@@ -1,5 +1,21 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-  @for (character of characters(); track character.id) {
-    <db-card [character]="character" />
+<section class="flex flex-col gap-2 items-center">
+  <div class="flex gap-2 justify-end my-5">
+    <filter-characters (filters)="filters.set($event)" />
+    <!-- <search-input /> -->
+  </div>
+  @if (dragonBallResource.isLoading()) {
+    <span class="loading loading-spinner loading-xl mt-5"></span>
   }
-</div>
+  <!--  -->
+  @if (dragonBallResource.hasValue()) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (character of characters(); track character.id) {
+        <db-card [character]="character" />
+      } @empty {
+        <div>
+          <p class="text-accent text-2xl">Not found Characters...</p>
+        </div>
+      }
+    </div>
+  }
+</section>

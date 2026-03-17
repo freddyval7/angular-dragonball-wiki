@@ -3,7 +3,7 @@ import {
   CharacterDetail,
   Transformation,
 } from '../../../../../interfaces/characterDetail.interface';
-import { Carousel } from '../../../../../shared/navbar/carousel/carousel';
+import { Carousel } from '../../../../../shared/carousel/carousel';
 
 @Component({
   selector: 'character-detail-card',
@@ -53,4 +53,10 @@ export class CharacterDetailCard {
 
     return char.transformations[this.selectedState() - 1];
   });
+
+  showDescription = signal(false);
+
+  toggleDescription() {
+    this.showDescription.set(!this.showDescription());
+  }
 }

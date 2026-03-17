@@ -1,0 +1,27 @@
+<div class="flex gap-2">
+  <select class="select w-25 md:w-44" (change)="updateFilter('gender', gender.value)" #gender>
+    <option disabled selected>Gender</option>
+    <option value="">All</option>
+    @for (item of genderOptions; track $index) {
+      <option [value]="item.label">{{ item.label }}</option>
+    }
+  </select>
+  <select class="select w-25 md:w-44" (change)="updateFilter('race', race.value)" #race>
+    <option disabled selected>Race</option>
+    <option value="">All</option>
+    @for (item of raceOptions; track $index) {
+      <option [value]="item.label">{{ item.label }}</option>
+    }
+  </select>
+  <select
+    class="select w-25 md:w-44"
+    (change)="updateFilter('affiliation', affiliation.value)"
+    #affiliation
+  >
+    <option disabled selected>Affiliation</option>
+    <option value="">All</option>
+    @for (item of affiliationOptions; track $index) {
+      <option [value]="item.label">{{ item.label }}</option>
+    }
+  </select>
+</div>

@@ -17,10 +17,15 @@
       <h2 class="card-title text-accent">{{ actualState()?.name }}</h2>
       <div class="h-full flex flex-col justify-between gap-2">
         <div>
-          <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-            <input type="radio" name="my-accordion-2" checked="checked" />
+          <div
+            class="collapse collapse-arrow bg-base-100 border border-base-300"
+            (click)="toggleDescription()"
+          >
+            <input type="radio" name="my-accordion-2" [checked]="showDescription()" />
             <div class="collapse-title font-semibold">Description</div>
-            <div class="collapse-content text-sm">{{ character()?.description }}</div>
+            <div class="collapse-content text-sm/relaxed">
+              {{ character()?.description }}
+            </div>
           </div>
         </div>
         <div class="grid grid-cols-3 mt-4">
