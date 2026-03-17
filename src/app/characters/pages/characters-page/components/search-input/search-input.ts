@@ -17,8 +17,6 @@ export class SearchInput {
   debounceEffect = effect((onCleanup) => {
     const value = this.inputValue();
 
-    console.log('value', value);
-
     const timeout = setTimeout(() => {
       this.value.emit(value);
     }, 1000);

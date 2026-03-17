@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { DBResponse, Item } from '../interfaces/dragonballResponse.interface';
 import { CharacterDetail } from '../interfaces/characterDetail.interface';
 
@@ -18,9 +18,16 @@ interface Options {
 @Injectable({ providedIn: 'root' })
 export class DragonBallService {
   private http = inject(HttpClient);
+  private cacheCharacters = new Map<string, Item[]>();
+  private cacheCharacterDetail = new Map<string, CharacterDetail>();
 
   getCharacters(options: Options) {
     const { limit = 9, page = 1, gender = '', race = '', affiliation = '', name = '' } = options;
+
+    const key = `${limit}-${page}-${gender}-${race}-${affiliation}-${name}`;
+    if (this.cacheCharacters.has(key)) {
+      return of(this.cacheCharacters.get(key));
+    }
 
     let params = new HttpParams().set('limit', limit.toString()).set('page', page.toString());
 
@@ -48,22 +55,32 @@ export class DragonBallService {
         map((response) => {
           return this.extractCharacters(response);
         }),
+        tap((response) => {
+          this.cacheCharacters.set(key, response);
+        }),
       );
   }
 
   getCharacterById(id: string): Observable<CharacterDetail> {
-    return this.http.get<CharacterDetail>(`${baseUrl}/characters/${id}`);
+    const key = `${id}`;
+
+    if (this.cacheCharacterDetail.has(key)) {
+      return of(this.cacheCharacterDetail.get(key)!);
+    }
+    return this.http.get<CharacterDetail>(`${baseUrl}/characters/${id}`).pipe(
+      tap((response) => {
+        this.cacheCharacterDetail.set(key, response);
+      }),
+    );
   }
 
   private extractCharacters(response: DBResponse) {
     // Verificar si la respuesta es un array (respuesta filtrada)
     if (Array.isArray(response)) {
-      console.log('response is array');
       return response;
     }
 
     // Si es paginada, retornar los items
-    console.log('response is not array');
     return response.items;
   }
 }
