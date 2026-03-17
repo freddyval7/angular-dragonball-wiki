@@ -11,5 +11,15 @@
       <path d="m21 21-4.3-4.3"></path>
     </g>
   </svg>
-  <input type="search" class="grow" placeholder="Search" />
+  <input
+    type="text"
+    placeholder="Search"
+    #txtSearch
+    (keyup.enter)="value.emit(txtSearch.value)"
+    (keyup)="inputValue.set(txtSearch.value)"
+    [value]="inputValue()"
+    type="search"
+    class="grow"
+    placeholder="Search"
+  />
 </label>

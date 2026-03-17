@@ -5,10 +5,11 @@ import { DragonBallService } from '../../../services/dragonball.service';
 import { ActivatedRoute } from '@angular/router';
 import { FilterCharacters } from './components/filter-characters/filter-characters';
 import { Filters } from '../../../utils/filter-utils';
+import { SearchInput } from './components/search-input/search-input';
 
 @Component({
   selector: 'app-charactersPage',
-  imports: [DbCard, FilterCharacters],
+  imports: [DbCard, FilterCharacters, SearchInput],
   templateUrl: './characters-page.html',
 })
 export class CharactersPage {
@@ -17,9 +18,12 @@ export class CharactersPage {
 
   filters = signal<Filters>({});
 
+  searchCharacter = signal<string>('');
+
   dragonBallResource = rxResource({
     params: () => ({
       ...this.filters(),
+      name: this.searchCharacter(),
     }),
     stream: ({ params }) => {
       return this.dragonBallService.getCharacters(params);

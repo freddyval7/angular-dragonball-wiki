@@ -20,7 +20,7 @@ export class DragonBallService {
   private http = inject(HttpClient);
 
   getCharacters(options: Options) {
-    const { limit = 9, page = 1, gender = '', race = '', affiliation = '' } = options;
+    const { limit = 9, page = 1, gender = '', race = '', affiliation = '', name = '' } = options;
 
     let params = new HttpParams().set('limit', limit.toString()).set('page', page.toString());
 
@@ -34,6 +34,10 @@ export class DragonBallService {
 
     if (affiliation) {
       params = params.set('affiliation', affiliation);
+    }
+
+    if (name) {
+      params = params.set('name', name);
     }
 
     return this.http
