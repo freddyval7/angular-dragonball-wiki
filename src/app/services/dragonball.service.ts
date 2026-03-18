@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable, of, tap } from 'rxjs';
 import { DBResponse, Item } from '../interfaces/dragonballResponse.interface';
 import { CharacterDetail } from '../interfaces/characterDetail.interface';
+import { Planet, PlanetResponse } from '../interfaces/planets.interface';
 
 const baseUrl = 'https://dragonball-api.com/api';
 
@@ -20,6 +21,8 @@ export class DragonBallService {
   private http = inject(HttpClient);
   private cacheCharacters = new Map<string, Item[]>();
   private cacheCharacterDetail = new Map<string, CharacterDetail>();
+  private cachePlanets = new Map<string, Planet[]>();
+  private cachePlanetDetail = new Map<string, Planet>();
 
   getCharacters(options: Options) {
     const { limit = 100, page = 1, gender = '', race = '', affiliation = '', name = '' } = options;
@@ -74,7 +77,45 @@ export class DragonBallService {
     );
   }
 
+  getPlanets(options: Options) {
+    const { limit = 100, page = 1, name = '' } = options;
+    const key = `${name}-${limit}`;
+
+    if (this.cachePlanets.has(key)) {
+      return of(this.cachePlanets.get(key)!);
+    }
+
+    let params = new HttpParams().set('limit', limit.toString()).set('page', page.toString());
+
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    return this.http
+      .get<PlanetResponse>(`${baseUrl}/planets`, {
+        params,
+      })
+      .pipe(
+        map((response) => {
+          return this.extractPlanets(response);
+        }),
+        tap((response) => {
+          this.cachePlanets.set(key, response);
+        }),
+      );
+  }
+
   private extractCharacters(response: DBResponse) {
+    // Verificar si la respuesta es un array (respuesta filtrada)
+    if (Array.isArray(response)) {
+      return response;
+    }
+
+    // Si es paginada, retornar los items
+    return response.items;
+  }
+
+  private extractPlanets(response: PlanetResponse) {
     // Verificar si la respuesta es un array (respuesta filtrada)
     if (Array.isArray(response)) {
       return response;
