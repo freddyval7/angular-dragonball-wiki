@@ -1,5 +1,5 @@
 <section class="flex flex-col gap-2 items-center">
-  <div class="flex gap-2 justify-end my-5">
+  <div class="flex flex-col gap-4 justify-end my-5 md:flex-row">
     <filter-characters (filters)="filters.set($event)" />
     <search-input (value)="searchCharacter.set($event)" />
   </div>
