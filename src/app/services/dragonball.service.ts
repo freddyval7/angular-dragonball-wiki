@@ -22,7 +22,7 @@ export class DragonBallService {
   private cacheCharacterDetail = new Map<string, CharacterDetail>();
 
   getCharacters(options: Options) {
-    const { limit = 9, page = 1, gender = '', race = '', affiliation = '', name = '' } = options;
+    const { limit = 100, page = 1, gender = '', race = '', affiliation = '', name = '' } = options;
 
     const key = `${limit}-${page}-${gender}-${race}-${affiliation}-${name}`;
     if (this.cacheCharacters.has(key)) {
