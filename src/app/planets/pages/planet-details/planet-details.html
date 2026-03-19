@@ -1,1 +1,5 @@
-<p>planet-details works!</p>,
+@if (planetResource.hasValue()) {
+  <div class="min-h-screen flex justify-center">
+    <planet-detail-card [planet]="planetResource.value()" />
+  </div>
+}

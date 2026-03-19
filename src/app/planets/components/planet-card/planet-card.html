@@ -1,11 +1,11 @@
 <div>
   <div
     [routerLink]="['/planets', planet().id]"
-    class="card bg-base-100 w-96 min-h-137.5 shadow-sm rounded-md cursor-pointer group"
+    class="card bg-base-100 w-96 min-h-137.5 shadow-sm rounded-md cursor-pointer group hover:scale-105 transition-all duration-500"
   >
     <div class="h-80 rounded-md">
       <img
-        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ease-in-out group-hover:z-10"
+        class="w-full h-full object-cover rounded-t-2xl"
         [src]="planet().image"
         [alt]="planet().name"
       />

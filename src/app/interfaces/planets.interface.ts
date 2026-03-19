@@ -1,3 +1,5 @@
+import { CharacterDetail } from './characterDetail.interface';
+
 export interface PlanetResponse {
   items: Planet[];
   meta: Meta;
@@ -11,6 +13,7 @@ export interface Planet {
   description: string;
   image: string;
   deletedAt: null;
+  characters: CharacterDetail[];
 }
 
 export interface Links {

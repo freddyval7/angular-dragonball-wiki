@@ -1,0 +1,34 @@
+<div class="md:py-10 md:px-20 py-5 px-10 flex items-center min-h-screen">
+  <div
+    class="card md:card-side bg-base-100 shadow-sm grid grid-cols-1 md:grid-cols-2 rounded-md max-w-3xl md:max-w-4xl"
+  >
+    <div class="rounded-md">
+      <img
+        class="w-full h-full object-contain rounded-l-2xl"
+        [src]="planet().image"
+        [alt]="planet().name"
+      />
+    </div>
+    <div class="card-body bg-base-300 rounded-md">
+      <div class="card-body bg-base-300 flex flex-col h-full gap-6">
+        <h2 class="card-title text-accent">{{ planet().name }}</h2>
+        <div class="mb-5">
+          {{ planet().description }}
+        </div>
+        <app-carousel-chars-planets
+          [images]="characterImages()"
+          (slideSelected)="characterUrlSelectedInSlice.set($event)"
+        ></app-carousel-chars-planets>
+        <div class="flex gap-2 items-center">
+          <div
+            [class.bg-red-500]="planet().isDestroyed === true"
+            [class.badge-info]="planet().isDestroyed === false"
+            class="badge rounded-full badge-sm font-medium"
+          >
+            {{ planet().isDestroyed === true ? 'Destroyed' : 'Not Destroyed' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

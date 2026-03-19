@@ -105,6 +105,19 @@ export class DragonBallService {
       );
   }
 
+  getPlanetById(id: string): Observable<Planet> {
+    const key = `${id}`;
+
+    if (this.cachePlanetDetail.has(key)) {
+      return of(this.cachePlanetDetail.get(key)!);
+    }
+    return this.http.get<Planet>(`${baseUrl}/planets/${id}`).pipe(
+      tap((response) => {
+        this.cachePlanetDetail.set(key, response);
+      }),
+    );
+  }
+
   private extractCharacters(response: DBResponse) {
     // Verificar si la respuesta es un array (respuesta filtrada)
     if (Array.isArray(response)) {

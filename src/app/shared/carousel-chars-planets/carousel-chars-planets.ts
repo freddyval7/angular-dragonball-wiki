@@ -12,17 +12,17 @@ import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
 
 @Component({
-  selector: 'app-carousel',
+  selector: 'app-carousel-chars-planets',
   imports: [],
-  templateUrl: './carousel.html',
+  templateUrl: './carousel-chars-planets.html',
 })
-export class Carousel implements AfterViewInit, OnChanges {
+export class CarouselCharsPlanets implements AfterViewInit, OnChanges {
   images = input.required<string[] | undefined>();
   swiperDiv = viewChild.required<ElementRef>('swiperDiv');
 
   swiper: Swiper | undefined = undefined;
 
-  slideSelected = output<number>();
+  slideSelected = output<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['images'].firstChange) {
@@ -46,7 +46,8 @@ export class Carousel implements AfterViewInit, OnChanges {
       // Optional parameters
       direction: 'horizontal',
       loop: true,
-      slidesPerView: 1,
+      slidesPerView: 3,
+      spaceBetween: 10,
 
       modules: [Navigation, Pagination],
 
@@ -67,8 +68,11 @@ export class Carousel implements AfterViewInit, OnChanges {
       },
 
       on: {
-        slideChangeTransitionStart: (swiper) => {
-          this.slideSelected.emit(swiper.realIndex);
+        click: (swiper: Swiper) => {
+          // emit the url of the image clicked
+          const activeSlide = swiper.slides[swiper.clickedIndex];
+          const imgUrl = activeSlide.querySelector('img')!.src;
+          this.slideSelected.emit(imgUrl);
         },
       },
     });
