@@ -4,22 +4,27 @@
   >
     <div class="rounded-md">
       <img
-        class="w-full h-full object-contain rounded-l-2xl"
+        class="w-full h-full object-fill rounded-l-2xl"
         [src]="planet().image"
         [alt]="planet().name"
       />
     </div>
     <div class="card-body bg-base-300 rounded-md">
       <div class="card-body bg-base-300 flex flex-col h-full gap-6">
-        <h2 class="card-title text-accent">{{ planet().name }}</h2>
-        <div class="mb-5">
+        <h2 class="card-title text-accent text-2xl">{{ planet().name }}</h2>
+        <div>
           {{ planet().description }}
         </div>
-        <app-carousel-chars-planets
-          [images]="characterImages()"
-          (slideSelected)="characterUrlSelectedInSlice.set($event)"
-        ></app-carousel-chars-planets>
-        <div class="flex gap-2 items-center">
+        @if (characterImages().length > 0) {
+          <div class="flex flex-col gap-4">
+            <h3 class="card-title text-accent text-xl">Habitants</h3>
+            <app-carousel-chars-planets
+              [images]="characterImages()"
+              (slideSelected)="characterUrlSelectedInSlice.set($event)"
+            ></app-carousel-chars-planets>
+          </div>
+        }
+        <div class="flex gap-2 items-center justify-end">
           <div
             [class.bg-red-500]="planet().isDestroyed === true"
             [class.badge-info]="planet().isDestroyed === false"
